@@ -1,7 +1,8 @@
 package it.unibo.oop.reactivegui02;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import it.unibo.oop.JFrameUtil;
+
+import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,9 +16,8 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("PMD.AvoidPrintStackTrace")
 public final class ConcurrentGUI extends JFrame {
 
+    @Serial
     private static final long serialVersionUID = -6218820567019985015L;
-    private static final double WIDTH_PERC = 0.2;
-    private static final double HEIGHT_PERC = 0.1;
 
     private final JLabel display = new JLabel();
 
@@ -26,9 +26,7 @@ public final class ConcurrentGUI extends JFrame {
      */
     public ConcurrentGUI() {
         super();
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize((int) (screenSize.getWidth() * WIDTH_PERC), (int) (screenSize.getHeight() * HEIGHT_PERC));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JFrameUtil.dimensionJFrame(this);
         final JPanel panel = new JPanel();
         panel.add(display);
         final JButton stop = new JButton("stop");
@@ -51,7 +49,7 @@ public final class ConcurrentGUI extends JFrame {
         new Thread(agent).start();
     }
 
-    private class Agent implements Runnable {
+    private final class Agent implements Runnable {
         private volatile boolean stop;
         private volatile boolean up = true;
         private int counter;

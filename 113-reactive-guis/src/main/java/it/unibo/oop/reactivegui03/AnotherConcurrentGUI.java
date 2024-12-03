@@ -1,9 +1,11 @@
 package it.unibo.oop.reactivegui03;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import it.unibo.oop.JFrameUtil;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +22,6 @@ import javax.swing.SwingUtilities;
 public final class AnotherConcurrentGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private static final double WIDTH_PERC = 0.2;
-    private static final double HEIGHT_PERC = 0.1;
     private static final long WAITING_TIME = TimeUnit.SECONDS.toMillis(10);
 
     private final JLabel display = new JLabel();
@@ -35,9 +35,7 @@ public final class AnotherConcurrentGUI extends JFrame {
      * Builds a C3GUI.
      */
     public AnotherConcurrentGUI() {
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize((int) (screenSize.getWidth() * WIDTH_PERC), (int) (screenSize.getHeight() * HEIGHT_PERC));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JFrameUtil.dimensionJFrame(this);
         final JPanel panel = new JPanel();
         panel.add(display);
         panel.add(up);
@@ -89,7 +87,9 @@ public final class AnotherConcurrentGUI extends JFrame {
         });
     }
 
-    private class CounterAgent implements Runnable, java.io.Serializable {
+    private final class CounterAgent implements Runnable, Serializable {
+
+        @Serial
         private static final long serialVersionUID = 1L;
         private volatile boolean stop;
         private volatile boolean up = true;
